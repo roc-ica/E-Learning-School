@@ -10,34 +10,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.2/cdn.min.js" integrity="sha512-FwRoHOUW/Yu7CcAMg4bH20XOn0uismYklB9wpfJureVul5q4ZAZYsV4AZMJkMkB7FwT0tMlZZEu86ItSO00CmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal">
-
-<!-- Header -->
-<header class="bg-primary p-4 flex justify-between items-center">
-    <!-- Logo / Branding -->
-    <div class="text-white font-bold text-lg">
+<body class="bg-gray-100 font-sans leading-normal tracking-normal m-0 p-0">
+<header class="bg-primary py-6 flex justify-between items-center px-20">
+    <div class="text-white font-bold text-2xl">
         E-Learning
     </div>
-
-    <!-- Navigation / Controls -->
     <div class="flex space-x-4 items-center">
         @auth
-            <!-- User Menu with Dropdown -->
             <div x-data="{ open: false }" class="relative">
                 <button @click="open = !open" class="flex items-center space-x-1 text-white font-medium focus:outline-none">
                     <span>{{ auth()->user()->name }}</span>
-                    <span>&#x25BC;</span> <!-- Down arrow -->
+                    <span>&#x25BC;</span>
                 </button>
-
-                <!-- Dropdown Menu -->
                 <div
                     x-show="open"
                     @click.outside="open = false"
                     class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md"
                     style="display: none;">
-                    <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md">
-                        Profile
-                    </a>
                     <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         Logout
@@ -48,31 +37,22 @@
                 </div>
             </div>
         @else
-            <!-- Login/Register Button -->
-            <a href="{{ route('login') }}" class="bg-white text-black px-4 py-2 rounded-full shadow-md">
+            <a href="{{ route('login') }}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full shadow-md">
                 Login
             </a>
         @endauth
-
-        <!-- Language Switcher -->
-        <div class="flex space-x-1">
-            <button class="bg-secondary text-white px-2 py-1 rounded-full">EN</button>
-            <button class="bg-white text-black px-2 py-1 rounded-full shadow-md">NL</button>
+        <div class="flex space-x-2">
+            <button class="bg-secondary text-white px-3 py-2 rounded-full shadow-md">EN</button>
+            <button class="bg-white text-black px-3 py-2 rounded-full shadow-md">NL</button>
         </div>
     </div>
 </header>
-
-<!-- Main Content Area -->
-<main class="container mx-auto mt-4">
+<main class="m-0">
     {{ $slot }}
 </main>
-
-<!-- Footer -->
 <footer class="bg-primary p-4 text-white text-center">
     &copy; {{ date('Y') }} E_learning
 </footer>
-
-<!-- JavaScript Files -->
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.2/cdn.min.js" integrity="sha512-FwRoHOUW/Yu7CcAMg4bH20XOn0uismYklB9wpfJureVul5q4ZAZYsV4AZMJkMkB7FwT0tMlZZEu86ItSO00CmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
