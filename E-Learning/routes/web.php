@@ -1,24 +1,21 @@
 <?php
 
+use App\Http\Controllers\WordListController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-// Home Route
 Route::get('/', function () {
-    return view('home'); // Ensure resources/views/home.blade.php exists
+    return view('home');
 })->name('home');
 
-// Profile Routes
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Optionally, a dashboard route
-    Route::get('/dashboard', function () {
-        return view('dashboard'); // Optional: create resources/views/dashboard.blade.php
-    })->name('dashboard');
+    Route::get('/lists', [WordListController::class, 'index'])->name('lists.index');
+    Route::get('/lists/create-list', [WordListController::class, 'create'])->name('lists.create');
+    Route::post('/lists', [WordListController::class, 'store'])->name('lists.store');
 });
 
-// Authentication Routes
 require __DIR__.'/auth.php';
