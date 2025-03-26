@@ -3,41 +3,54 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\WordList; // Ensure this matches your actual model name
+use App\Models\WordList;
 
 class WordListController extends Controller
 {
+    /**
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        // Fetch all word lists from the database
-        $wordLists = WordList::all();
+        $wordLists = WordList::where('user_id', auth()->id())->get();
 
-        // Pass the word lists to the view
         return view('lists', compact('wordLists'));
     }
 
+    /**
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         return view('createlist');
     }
 
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
-        // Validate incoming request
         $request->validate([
             'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'words_count' => 'required|integer',
+            'words' => 'required|array',
+            'words.*.woord' => 'required|string',
+            'words.*.vertaling' => 'required|string',
+            'is_public' => 'required|boolean',
         ]);
 
-        // Create a new word list
+        $wordsJson = json_encode($request->input('words'));
+
         WordList::create([
             'title' => $request->input('title'),
-            'author' => $request->input('author'),
-            'words_count' => $request->input('words_count'),
+            'author' => auth()->user()->username,
+            'words' => $wordsJson,
+            'words_count' => count($request->input('words')),
+            'user_id' => auth()->id(),
+            'is_public' => $request->input('is_public'),
         ]);
 
-        // Redirect to the lists index
-        return redirect()->route('lists.index')->with('success', 'Word list created successfully!');
+        return redirect()->route('lists.index')->with('Word list created');
     }
 }

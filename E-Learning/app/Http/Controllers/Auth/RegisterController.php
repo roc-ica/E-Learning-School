@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -25,6 +26,8 @@ class RegisterController extends Controller
             'username' => $request->username,
             'password' => Hash::make($request->password),
         ]);
-        return redirect()->route('login');
+
+        // Redirect to login page after registration
+        return redirect()->route('login')->with('status', 'Registration successful! Please log in.');
     }
 }

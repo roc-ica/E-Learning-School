@@ -19,7 +19,7 @@
         @auth
             <div x-data="{ open: false }" class="relative">
                 <button @click="open = !open" class="flex items-center space-x-1 text-white font-medium focus:outline-none">
-                    <span>{{ auth()->user()->name }}</span>
+                    <span>{{ auth()->user()->username }}</span> <!-- Changed from name to username -->
                     <span>&#x25BC;</span>
                 </button>
                 <div
@@ -54,7 +54,7 @@
     {{ $slot }}
 </main>
 <footer class="bg-primary p-4 text-white text-center">
-    &copy; {{ date('Y') }} E_learning
+    &copy; {{ date('Y') }} E-Learning
 </footer>
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.2/cdn.min.js" integrity="sha512-FwRoHOUW/Yu7CcAMg4bH20XOn0uismYklB9wpfJureVul5q4ZAZYsV4AZMJkMkB7FwT0tMlZZEu86ItSO00CmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
