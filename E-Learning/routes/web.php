@@ -23,4 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/lists', [WordListController::class, 'index'])->name('lists.index');
     Route::get('/lists/create', [WordListController::class, 'create'])->name('lists.create');
     Route::post('/lists', [WordListController::class, 'store'])->name('lists.store');
+    Route::get('/lists/{wordList}/edit', [WordListController::class, 'edit'])->name('lists.edit');
+    Route::put('/lists/{wordList}', [WordListController::class, 'update'])->name('lists.update');
+    Route::delete('/lists/{wordList}', [WordListController::class, 'destroy'])->name('lists.destroy');
 });
