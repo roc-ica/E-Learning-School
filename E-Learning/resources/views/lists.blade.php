@@ -15,7 +15,7 @@
                         <span>{{ $list->title }}</span>
                     </div>
                     <div>{{ $list->author }}</div>
-                    <div>{{ $list->words_count }} woorden</div>
+                    <div>{{ $list->word_pairs_count }} woorden</div>
                 </div>
             @endforeach
         </div>

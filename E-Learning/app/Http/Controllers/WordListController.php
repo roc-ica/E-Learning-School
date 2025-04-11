@@ -7,29 +7,20 @@ use App\Models\WordList;
 
 class WordListController extends Controller
 {
-    /**
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $wordLists = WordList::where('user_id', auth()->id())->get();
+        $wordLists = WordList::where('user_id', auth()->id())
+            ->withCount('wordPairs')
+            ->get();
 
         return view('lists', compact('wordLists'));
     }
 
-    /**
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('createlist');
     }
 
-    /**
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -40,17 +31,23 @@ class WordListController extends Controller
             'is_public' => 'required|boolean',
         ]);
 
-        $wordsJson = json_encode($request->input('words'));
-
-        WordList::create([
+        // Create the word list
+        $wordList = WordList::create([
             'title' => $request->input('title'),
             'author' => auth()->user()->username,
-            'words' => $wordsJson,
             'words_count' => count($request->input('words')),
             'user_id' => auth()->id(),
             'is_public' => $request->input('is_public'),
         ]);
 
-        return redirect()->route('lists.index')->with('Word list created');
+        // Store each word pair in the related table
+        foreach ($request->input('words') as $wordData) {
+            $wordList->wordPairs()->create([
+                'original_word' => $wordData['woord'],
+                'translated_word' => $wordData['vertaling'],
+            ]);
+        }
+
+        return redirect()->route('lists.index')->with('success', 'Word list created');
     }
 }

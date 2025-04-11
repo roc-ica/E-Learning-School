@@ -9,11 +9,17 @@ class WordList extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'author', 'words', 'words_count', 'user_id'];
+    protected $fillable = ['title', 'author', 'words_count', 'user_id', 'is_public'];
 
     // Define relationship with User model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    // Add relationship with WordPair model
+    public function wordPairs()
+    {
+        return $this->hasMany(WordPair::class);
     }
 }
