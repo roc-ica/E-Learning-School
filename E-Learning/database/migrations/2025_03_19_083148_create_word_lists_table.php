@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('word_lists', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('language')->nullable();
-            $table->string('author')->nullable();
-            $table->integer('words_count')->default(0);
-            $table->timestamps();
+        // First drop the foreign key
+        Schema::table('word_lists', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+        });
+
+        // Change column type and add correct foreign key
+        Schema::table('word_lists', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned()->change();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -26,6 +28,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('word_lists');
+        Schema::table('word_lists', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->bigInteger('user_id')->unsigned()->change();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
     }
 };
