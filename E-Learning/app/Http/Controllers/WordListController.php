@@ -13,12 +13,12 @@ class WordListController extends Controller
             ->withCount('wordPairs')
             ->get();
 
-        return view('lists', compact('wordLists'));
+        return view('lists.lists', compact('wordLists'));
     }
 
     public function create()
     {
-        return view('createlist');
+        return view('lists.createlist');
     }
 
     public function store(Request $request)
@@ -51,21 +51,31 @@ class WordListController extends Controller
         return redirect()->route('lists.index')->with('success', 'Word list created');
     }
 
+    public function view(WordList $wordList)
+    {
+        // Check if the list is public or belongs to the current user
+        if (!$wordList->is_public && $wordList->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $wordPairs = $wordList->wordPairs;
+
+        return view('lists.view', compact('wordList', 'wordPairs'));
+    }
+
     public function edit(WordList $wordList)
     {
-        // Ensure the user can only edit their own lists
         if ($wordList->user_id !== auth()->id()) {
             abort(403);
         }
 
         $wordPairs = $wordList->wordPairs;
 
-        return view('editlist', compact('wordList', 'wordPairs'));
+        return view('lists.editlist', compact('wordList', 'wordPairs'));
     }
 
     public function update(Request $request, WordList $wordList)
     {
-        // Ensure the user can only update their own lists
         if ($wordList->user_id !== auth()->id()) {
             abort(403);
         }
@@ -78,17 +88,14 @@ class WordListController extends Controller
             'is_public' => 'boolean',
         ]);
 
-        // Update the word list
         $wordList->update([
             'title' => $request->input('title'),
             'words_count' => count($request->input('words')),
             'is_public' => $request->input('is_public', false),
         ]);
 
-        // Delete existing word pairs
         $wordList->wordPairs()->delete();
 
-        // Create new word pairs
         foreach ($request->input('words') as $wordData) {
             $wordList->wordPairs()->create([
                 'original_word' => $wordData['woord'],
@@ -101,14 +108,22 @@ class WordListController extends Controller
 
     public function destroy(WordList $wordList)
     {
-        // Ensure the user can only delete their own lists
         if ($wordList->user_id !== auth()->id()) {
             abort(403);
         }
 
-        // Delete the word list (word pairs will be deleted via foreign key cascade)
         $wordList->delete();
 
         return redirect()->route('lists.index')->with('success', 'Word list removed successfully');
+    }
+
+    public function publicLists()
+    {
+        $publicLists = WordList::where('is_public', 1)
+            ->withCount('wordPairs')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('lists.public', compact('publicLists'));
     }
 }

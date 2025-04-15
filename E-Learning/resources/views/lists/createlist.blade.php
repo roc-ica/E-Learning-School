@@ -2,7 +2,7 @@
     <div class="min-h-screen bg-darker">
         <div class="flex justify-between items-center mx-32 py-8">
             <h1 class="text-2xl text-white font-bold mb-4">Create new list</h1>
-            <button type="submit" form="create-list-form" class="bg-green-500 text-white px-4 py-2 rounded">Create List</button>
+            <button type="submit" form="create-list-form" class="bg-green-500 text-white px-4 py-2 rounded">Create</button>
         </div>
         <form id="create-list-form" action="{{ route('lists.store') }}" method="POST" class="space-y-4 mx-32">
             @csrf

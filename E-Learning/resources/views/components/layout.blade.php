@@ -19,7 +19,7 @@
         @auth
             <div x-data="{ open: false }" class="relative">
                 <button @click="open = !open" class="flex items-center space-x-1 text-white font-medium focus:outline-none">
-                    <span>{{ auth()->user()->username }}</span> <!-- Changed from name to username -->
+                    <span>{{ auth()->user()->username }}</span>
                     <span>&#x25BC;</span>
                 </button>
                 <div
@@ -27,6 +27,9 @@
                     @click.outside="open = false"
                     class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md"
                     style="display: none;">
+                    <a href="/lists/public" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md">
+                        Public lists
+                    </a>
                     <a href="/lists" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md">
                         My lists
                     </a>
