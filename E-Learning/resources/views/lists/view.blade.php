@@ -12,7 +12,7 @@
 
         <div class="mx-32 space-y-4">
             <div class="flex space-x-4 mb-4">
-                <button class="bg-green-500 text-white px-4 py-2 rounded">Oefen alle woorden</button>
+                <button class="bg-green-500 text-white px-4 py-2 rounded">Learn words</button>
             </div>
 
             <div class="bg-lighter rounded-2xl p-4">
