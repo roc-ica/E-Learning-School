@@ -3,8 +3,8 @@
         <div class="flex justify-between items-center mx-32 py-8">
             <h1 class="text-2xl text-white font-bold mb-4">{{ $wordList->title }}</h1>
             <div>
-                <span class="text-white">{{ $wordPairs->count() }} woorden</span>
-                <a href="{{ route('lists.index') }}" class="bg-primary text-white px-4 py-2 rounded ml-4">
+                <span class="text-white">{{ $wordPairs->count() }} <span class="translate-text" data-en="words" data-nl="woorden">woorden</span></span>
+                <a href="{{ route('lists.index') }}" class="bg-primary text-white px-4 py-2 rounded ml-4 translate-text" data-en="Back to Lists" data-nl="Terug naar Lijsten">
                     Back to Lists
                 </a>
             </div>
@@ -13,7 +13,7 @@
         <div class="mx-32 space-y-4">
             <div class="flex space-x-4 mb-4">
                 <div class="relative group">
-                    <a href="{{ route('learn', $wordList) }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Learn words</a>
+                    <a href="{{ route('learn', $wordList) }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition translate-text" data-en="Learn words" data-nl="Woorden leren">Learn words</a>
                     <div class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white z-10 hidden group-hover:block">
 
                     </div>
