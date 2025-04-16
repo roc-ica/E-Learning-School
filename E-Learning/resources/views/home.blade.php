@@ -4,10 +4,10 @@
             <div class="md:w-1/2 flex justify-center md:justify-end">
                 <div>
                     <h1 class="text-5xl md:text-5xl font-bold">
-                        {{__('home.headertitle')}}
+                        E-Learning Learn at your Best
                     </h1>
                     <p class="text-lg mt-4">
-                        {{__('home.headersubtitle')}}
+                        This is e-learning
                     </p>
                     <div class="mt-6 flex space-x-4">
                         <a href="#" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full shadow-md">

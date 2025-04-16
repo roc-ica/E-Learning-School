@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,13 +11,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.2/cdn.min.js" integrity="sha512-FwRoHOUW/Yu7CcAMg4bH20XOn0uismYklB9wpfJureVul5q4ZAZYsV4AZMJkMkB7FwT0tMlZZEu86ItSO00CmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+
 <body class="bg-gray-100 font-sans leading-normal tracking-normal m-0 p-0">
-<header class="bg-primary py-6 flex justify-between items-center px-20">
-    <a href="/" class="text-white font-bold text-2xl">
-        E-Learning
-    </a>
-    <div class="flex space-x-4 items-center">
-        @auth
+    <header class="bg-primary py-6 flex justify-between items-center px-20">
+        <a href="/" class="text-white font-bold text-2xl">
+            E-Learning
+        </a>
+        <div class="flex space-x-4 items-center">
+            @auth
             <div x-data="{ open: false }" class="relative">
                 <button @click="open = !open" class="flex items-center space-x-1 text-white font-medium focus:outline-none">
                     <span>{{ auth()->user()->username }}</span>
@@ -34,7 +36,7 @@
                         My lists
                     </a>
                     <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
-                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         Logout
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -42,24 +44,24 @@
                     </form>
                 </div>
             </div>
-        @else
+            @else
             <a href="{{ route('login') }}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full shadow-md">
                 Login
             </a>
-        @endauth
-        <div class="flex space-x-2">
-            <button class="bg-secondary text-white px-3 py-2 rounded-full shadow-md">EN</button>
-            <button class="bg-white text-black px-3 py-2 rounded-full shadow-md">NL</button>
+            @endauth
+            <div class="flex space-x-2">
+
+            </div>
         </div>
-    </div>
-</header>
-<main class="m-0 bg-darker">
-    {{ $slot }}
-</main>
-<footer class="bg-primary p-4 text-white text-center">
-    &copy; {{ date('Y') }} E-Learning
-</footer>
-<script src="{{ asset('js/app.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.2/cdn.min.js" integrity="sha512-FwRoHOUW/Yu7CcAMg4bH20XOn0uismYklB9wpfJureVul5q4ZAZYsV4AZMJkMkB7FwT0tMlZZEu86ItSO00CmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </header>
+    <main class="m-0 bg-darker">
+        {{ $slot }}
+    </main>
+    <footer class="bg-primary p-4 text-white text-center">
+        &copy; {{ date('Y') }} E-Learning
+    </footer>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.2/cdn.min.js" integrity="sha512-FwRoHOUW/Yu7CcAMg4bH20XOn0uismYklB9wpfJureVul5q4ZAZYsV4AZMJkMkB7FwT0tMlZZEu86ItSO00CmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
+
 </html>
