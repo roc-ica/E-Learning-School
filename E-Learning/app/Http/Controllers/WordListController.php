@@ -7,11 +7,20 @@ use App\Models\WordList;
 
 class WordListController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $wordLists = WordList::where('user_id', auth()->id())
-            ->withCount('wordPairs')
-            ->get();
+        $query = WordList::where('user_id', auth()->id())
+            ->withCount('wordPairs');
+
+        // Apply search if provided
+        if ($request->has('search') && !empty($request->search)) {
+            $searchTerm = '%' . $request->search . '%';
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('title', 'like', $searchTerm);
+            });
+        }
+
+        $wordLists = $query->get();
 
         return view('lists.lists', compact('wordLists'));
     }
@@ -117,12 +126,20 @@ class WordListController extends Controller
         return redirect()->route('lists.index')->with('success', 'Word list removed successfully');
     }
 
-    public function publicLists()
+    public function publicLists(Request $request)
     {
-        $publicLists = WordList::where('is_public', 1)
-            ->withCount('wordPairs')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $query = WordList::where('is_public', 1)->withCount('wordPairs');
+
+        // Apply search if provided
+        if ($request->has('search') && !empty($request->search)) {
+            $searchTerm = '%' . $request->search . '%';
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('title', 'like', $searchTerm)
+                    ->orWhere('author', 'like', $searchTerm);
+            });
+        }
+
+        $publicLists = $query->orderBy('created_at', 'desc')->get();
 
         return view('lists.public', compact('publicLists'));
     }

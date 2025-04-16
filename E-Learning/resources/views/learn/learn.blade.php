@@ -6,12 +6,17 @@
         isCorrect: Array({{ count($wordPairs) }}).fill(false),
         score: 0,
         showScore: false,
+        direction: '{{ $direction }}',
         
         checkAnswer(index) {
             if (this.isChecked[index]) return;
             
             this.isChecked[index] = true;
-            const isCorrect = this.userAnswers[index].toLowerCase().trim() === this.wordPairs[index].translated_word.toLowerCase().trim();
+            const correctAnswer = this.direction === 'normal' 
+                ? this.wordPairs[index].translated_word.toLowerCase().trim()
+                : this.wordPairs[index].original_word.toLowerCase().trim();
+            
+            const isCorrect = this.userAnswers[index].toLowerCase().trim() === correctAnswer;
             this.isCorrect[index] = isCorrect;
             
             if (isCorrect) {
@@ -37,26 +42,50 @@
         getBorderColor(index) {
             if (!this.isChecked[index]) return 'border-gray-300';
             return this.isCorrect[index] ? 'border-green-500' : 'border-red-500';
+        },
+        
+        getDisplayWord(pair) {
+            return this.direction === 'normal' ? pair.original_word : pair.translated_word;
+        },
+        
+        getExpectedAnswer(pair) {
+            return this.direction === 'normal' ? pair.translated_word : pair.original_word;
         }
     }">
         <div class="max-w-3xl mx-auto px-4 py-8">
             <div class="flex justify-between items-center mb-8">
                 <h1 class="text-2xl text-white font-bold">Learning: {{ $wordList->title }}</h1>
-                <a href="{{ route('lists.view', $wordList) }}" class="bg-primary text-white px-4 py-2 rounded">
-                    Back to List
-                </a>
+                <div class="flex items-center space-x-3">
+                    <a href="{{ route('learn', ['wordList' => $wordList, 'direction' => $direction === 'normal' ? 'reversed' : 'normal']) }}"
+                        class="bg-yellow-500 text-white px-3 py-2 rounded hover:bg-yellow-600 transition flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                        </svg>
+                        Switch Words
+                    </a>
+                    <a href="{{ route('lists.view', $wordList) }}" class="bg-primary text-white px-4 py-2 rounded">
+                        Back to List
+                    </a>
+                </div>
             </div>
 
             <div class="bg-lighter rounded-2xl p-4 mb-6">
                 <div class="mb-4">
-                    <p class="text-white text-lg">Translate the following words:</p>
+                    <p class="text-white text-lg">
+                        {{ $direction === 'normal' ? 'Translate the following words:' : 'Provide the original words:' }}
+                    </p>
+                    <p class="text-gray-300 text-sm mt-1">
+                        {{ $direction === 'normal' 
+                            ? 'Enter the translations for each word' 
+                            : 'Enter the original words for each translation' }}
+                    </p>
                 </div>
 
                 <div class="space-y-3">
                     <template x-for="(pair, index) in wordPairs" :key="index">
                         <div class="flex items-center justify-between py-2 border-b border-darker">
                             <div class="w-1/2 pr-2">
-                                <span class="text-white text-base font-medium" x-text="pair.original_word"></span>
+                                <span class="text-white text-base font-medium" x-text="getDisplayWord(pair)"></span>
                             </div>
                             <div class="w-1/2">
                                 <input
@@ -66,7 +95,7 @@
                                     :disabled="isChecked[index]"
                                     :class="getBorderColor(index)"
                                     class="w-full bg-darker text-white px-3 py-1.5 rounded border-2 focus:outline-none"
-                                    placeholder="Your translation...">
+                                    placeholder="Your answer...">
                             </div>
                         </div>
                     </template>
@@ -82,11 +111,17 @@
             </div>
         </div>
 
-        <!-- Score Modal -->
         <div
             x-show="showScore"
+            x-cloak
+            style="display: none"
             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-            x-transition>
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0">
             <div class="bg-lighter p-6 rounded-xl shadow-lg max-w-sm w-full">
                 <h3 class="text-xl font-bold text-white mb-3">Your Score</h3>
                 <div class="text-center py-4">
@@ -99,9 +134,14 @@
                     <a href="{{ route('lists.view', $wordList) }}" class="bg-gray-600 text-white px-3 py-1.5 rounded hover:bg-gray-700 transition">
                         Back to List
                     </a>
-                    <a href="{{ route('learn', $wordList) }}" class="bg-primary text-white px-3 py-1.5 rounded hover:bg-blue-600 transition">
-                        Try Again
-                    </a>
+                    <div class="flex space-x-2">
+                        <a :href="'{{ route('learn', ['wordList' => $wordList]) }}?direction=' + direction" class="bg-primary text-white px-3 py-1.5 rounded hover:bg-blue-600 transition">
+                            Try Again
+                        </a>
+                        <a :href="'{{ route('learn', ['wordList' => $wordList]) }}?direction=' + (direction === 'normal' ? 'reversed' : 'normal')" class="bg-yellow-500 text-white px-3 py-1.5 rounded hover:bg-yellow-600 transition">
+                            Switch & Try
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

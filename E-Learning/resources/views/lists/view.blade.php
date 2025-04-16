@@ -12,7 +12,15 @@
 
         <div class="mx-32 space-y-4">
             <div class="flex space-x-4 mb-4">
-                <a href="{{ route('learn', $wordList) }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Learn words</a>
+                <div class="relative group">
+                    <a href="{{ route('learn', $wordList) }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Learn words</a>
+                    <div class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white z-10 hidden group-hover:block">
+                        <div class="py-1" role="menu">
+                            <a href="{{ route('learn', ['wordList' => $wordList, 'direction' => 'normal']) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Original → Translation</a>
+                            <a href="{{ route('learn', ['wordList' => $wordList, 'direction' => 'reversed']) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Translation → Original</a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="bg-lighter rounded-2xl p-4">
