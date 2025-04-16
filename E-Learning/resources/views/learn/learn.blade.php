@@ -7,27 +7,27 @@
         score: 0,
         showScore: false,
         direction: '{{ $direction }}',
-        
+
         checkAnswer(index) {
             if (this.isChecked[index]) return;
-            
+
             this.isChecked[index] = true;
-            const correctAnswer = this.direction === 'normal' 
+            const correctAnswer = this.direction === 'normal'
                 ? this.wordPairs[index].translated_word.toLowerCase().trim()
                 : this.wordPairs[index].original_word.toLowerCase().trim();
-            
+
             const isCorrect = this.userAnswers[index].toLowerCase().trim() === correctAnswer;
             this.isCorrect[index] = isCorrect;
-            
+
             if (isCorrect) {
                 this.score++;
             }
         },
-        
+
         calculateScore() {
             return Math.round((this.score / this.wordPairs.length) * 100);
         },
-        
+
         finishLearning() {
             // Check any remaining unchecked answers
             this.wordPairs.forEach((_, index) => {
@@ -35,19 +35,19 @@
                     this.checkAnswer(index);
                 }
             });
-            
+
             this.showScore = true;
         },
-        
+
         getBorderColor(index) {
             if (!this.isChecked[index]) return 'border-gray-300';
             return this.isCorrect[index] ? 'border-green-500' : 'border-red-500';
         },
-        
+
         getDisplayWord(pair) {
             return this.direction === 'normal' ? pair.original_word : pair.translated_word;
         },
-        
+
         getExpectedAnswer(pair) {
             return this.direction === 'normal' ? pair.translated_word : pair.original_word;
         }
@@ -75,8 +75,8 @@
                         {{ $direction === 'normal' ? 'Translate the following words:' : 'Provide the original words:' }}
                     </p>
                     <p class="text-gray-300 text-sm mt-1">
-                        {{ $direction === 'normal' 
-                            ? 'Enter the translations for each word' 
+                        {{ $direction === 'normal'
+                            ? 'Enter the translations for each word'
                             : 'Enter the original words for each translation' }}
                     </p>
                 </div>
@@ -137,9 +137,6 @@
                     <div class="flex space-x-2">
                         <a :href="'{{ route('learn', ['wordList' => $wordList]) }}?direction=' + direction" class="bg-primary text-white px-3 py-1.5 rounded hover:bg-blue-600 transition">
                             Try Again
-                        </a>
-                        <a :href="'{{ route('learn', ['wordList' => $wordList]) }}?direction=' + (direction === 'normal' ? 'reversed' : 'normal')" class="bg-yellow-500 text-white px-3 py-1.5 rounded hover:bg-yellow-600 transition">
-                            Switch & Try
                         </a>
                     </div>
                 </div>
