@@ -12,19 +12,19 @@
 
         <div class="mx-32 space-y-4">
             <div class="flex space-x-4 mb-4">
-                <button class="bg-green-500 text-white px-4 py-2 rounded">Learn words</button>
+                <a href="{{ route('learn', $wordList) }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Learn words</a>
             </div>
 
             <div class="bg-lighter rounded-2xl p-4">
                 @foreach($wordPairs as $pair)
-                    <div class="flex items-center justify-between py-4 border-b border-darker">
-                        <div class="flex items-center">
-                            <span class="text-white">{{ $pair->original_word }}</span>
-                        </div>
-                        <div class="flex items-center">
-                            <span class="text-white">{{ $pair->translated_word }}</span>
-                        </div>
+                <div class="flex items-center justify-between py-4 border-b border-darker">
+                    <div class="flex items-center">
+                        <span class="text-white">{{ $pair->original_word }}</span>
                     </div>
+                    <div class="flex items-center">
+                        <span class="text-white">{{ $pair->translated_word }}</span>
+                    </div>
+                </div>
                 @endforeach
             </div>
         </div>

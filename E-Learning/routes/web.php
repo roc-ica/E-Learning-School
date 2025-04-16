@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WordListController;
+use App\Http\Controllers\LearnController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -32,3 +33,4 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/lists/{wordList}', [WordListController::class, 'view'])->name('lists.view');
+Route::get('/learn/{wordList}', [LearnController::class, 'learn'])->name('learn');
