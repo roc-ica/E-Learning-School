@@ -22,4 +22,12 @@ class WordList extends Model
     {
         return $this->hasMany(WordPair::class);
     }
+
+    /**
+     * Get the learning sessions for this word list.
+     */
+    public function learningSessions()
+    {
+        return $this->hasMany(LearningSession::class);
+    }
 }

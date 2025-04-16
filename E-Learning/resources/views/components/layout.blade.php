@@ -12,7 +12,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-gray-100 font-sans leading-normal tracking-normal m-0 p-0">
+<body class="bg-darker font-sans leading-normal tracking-normal m-0 p-0">
     <header class="bg-primary py-4 md:py-6 flex justify-between items-center px-4 md:px-20">
         <a href="/" class="text-white font-bold text-xl md:text-2xl">
             E-Learning

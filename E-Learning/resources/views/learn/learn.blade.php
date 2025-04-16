@@ -7,6 +7,12 @@
         score: 0,
         showScore: false,
         direction: '{{ $direction }}',
+        submitScore() {
+            document.getElementById('score-input').value = this.score;
+            document.getElementById('total-words-input').value = this.wordPairs.length;
+            document.getElementById('direction-input').value = this.direction;
+            document.getElementById('save-score-form').submit();
+        },
 
         checkAnswer(index) {
             if (this.isChecked[index]) return;
@@ -138,6 +144,22 @@
                         Try Again
                     </a>
                 </div>
+                @auth
+                <div class="mt-4 pt-4 border-t border-darker">
+                    <button
+                        @click="submitScore"
+                        class="w-full bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded transition translate-text"
+                        data-en="Save Score" data-nl="Score Opslaan">
+                        Save Score
+                    </button>
+                    <form id="save-score-form" action="{{ route('learn.save-score', $wordList) }}" method="POST" class="hidden">
+                        @csrf
+                        <input type="hidden" name="score" id="score-input">
+                        <input type="hidden" name="total_words" id="total-words-input">
+                        <input type="hidden" name="direction" id="direction-input">
+                    </form>
+                </div>
+                @endauth
             </div>
         </div>
     </div>

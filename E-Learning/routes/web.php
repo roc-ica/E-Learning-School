@@ -30,6 +30,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/lists/{wordList}/edit', [WordListController::class, 'edit'])->name('lists.edit');
     Route::put('/lists/{wordList}', [WordListController::class, 'update'])->name('lists.update');
     Route::delete('/lists/{wordList}', [WordListController::class, 'destroy'])->name('lists.destroy');
+
+    // Learning session routes
+    Route::post('/learn/{wordList}/save-score', [LearnController::class, 'saveScore'])->name('learn.save-score');
+    Route::get('/lists/{wordList}/history', [LearnController::class, 'history'])->name('lists.history');
 });
 
 Route::get('/lists/{wordList}', [WordListController::class, 'view'])->name('lists.view');

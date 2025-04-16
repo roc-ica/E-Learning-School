@@ -26,4 +26,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the learning sessions for the user.
+     */
+    public function learningSessions()
+    {
+        return $this->hasMany(LearningSession::class);
+    }
 }
