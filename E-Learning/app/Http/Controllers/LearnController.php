@@ -22,7 +22,6 @@ class LearnController extends Controller
         $validated = $request->validate([
             'score' => 'required|integer|min:0',
             'total_words' => 'required|integer|min:1',
-            'direction' => 'required|in:normal,reversed',
         ]);
 
         $learningSession = new LearningSession([
@@ -30,12 +29,11 @@ class LearnController extends Controller
             'word_list_id' => $wordList->id,
             'score' => $validated['score'],
             'total_words' => $validated['total_words'],
-            'direction' => $validated['direction'],
         ]);
 
         $learningSession->save();
 
-        return redirect()->route('lists.history', $wordList)->with('success', 'Score saved successfully!');
+        return redirect()->route('lists.history', $wordList);
     }
 
     public function history(WordList $wordList)

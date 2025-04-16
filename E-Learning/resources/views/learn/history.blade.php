@@ -30,7 +30,6 @@
                             <tr class="border-b border-darker">
                                 <th class="text-white text-left py-3 px-2 sm:px-4 translate-text" data-en="Date" data-nl="Datum">Date</th>
                                 <th class="text-white text-left py-3 px-2 sm:px-4 translate-text" data-en="Score" data-nl="Score">Score</th>
-                                <th class="text-white text-left py-3 px-2 sm:px-4 translate-text" data-en="Mode" data-nl="Modus">Mode</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,13 +39,6 @@
                                 <td class="py-3 px-2 sm:px-4">
                                     <span class="{{ $session->percentage >= 70 ? 'text-green-500' : 'text-red-500' }} font-medium">
                                         {{ $session->score }}/{{ $session->total_words }} ({{ $session->percentage }}%)
-                                    </span>
-                                </td>
-                                <td class="text-white py-3 px-2 sm:px-4">
-                                    <span class="translate-text"
-                                        data-en="{{ $session->direction === 'normal' ? 'Normal' : 'Reversed' }}"
-                                        data-nl="{{ $session->direction === 'normal' ? 'Normaal' : 'Omgekeerd' }}">
-                                        {{ $session->direction === 'normal' ? 'Normal' : 'Reversed' }}
                                     </span>
                                 </td>
                             </tr>

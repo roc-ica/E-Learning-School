@@ -10,7 +10,6 @@
         submitScore() {
             document.getElementById('score-input').value = this.score;
             document.getElementById('total-words-input').value = this.wordPairs.length;
-            document.getElementById('direction-input').value = this.direction;
             document.getElementById('save-score-form').submit();
         },
 
@@ -156,7 +155,6 @@
                         @csrf
                         <input type="hidden" name="score" id="score-input">
                         <input type="hidden" name="total_words" id="total-words-input">
-                        <input type="hidden" name="direction" id="direction-input">
                     </form>
                 </div>
                 @endauth

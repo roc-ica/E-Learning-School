@@ -14,8 +14,7 @@ class LearningSession extends Model
         'user_id',
         'word_list_id',
         'score',
-        'total_words',
-        'direction'
+        'total_words'
     ];
 
     /**
